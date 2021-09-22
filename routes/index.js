@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
                         /*View Model */
-  res.render('index', { title: 'Express', author:'Orlando', AppName:'WebApp' });
+  res.render('index', { title: 'Express', author:'Orlando', AppName:'WebApp', company:'Awsome Software'});
 });
 
 /* Agregando nueva ruta */
