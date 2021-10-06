@@ -1,12 +1,54 @@
+const path=require('path');
 module.exports={
-    // 1.-Especificando el archivo de entrada
-    entry:'/client/index.js',
-    // 2.-Especificar el archivo de salida
+    // 1.-Establecer el modo
+    mode:'development',
+    // 2.-Archivo de entrada
+    entry:'./client/index.js',
+    //3.-Especificando la saldia
     output:{
-        path:'/public',//3.-Ruta absoluta de la salida
-        filename:'bundle.js',//4.-Nombre del archivo de salida
+        //4.-Ruta absoluta de salida
+        path:path.join(__dirname,'public'),
+        //5.-Nombre del archivo de salida
+        filename:'js/bundle.js',
+        //6.-Ruta del path publico
+        publicPath:'/'
     },
-    devServer : {
-        static:'./public'
+    module:{
+        rules:[
+            {
+                test: /\.js$/,
+                exclude:/(node_modules|bower_components)/,
+                use: [
+                    {
+                        loader:'babel-loader',
+                        options:{
+                            presets:[
+                                [
+                                    '@babel/preset-env',
+                                    {
+                                        'modules': false,
+                                        'useBuiltIns':'usage',
+                                        //'targets':{"chrome":"80"},
+                                        'targets':"> 0.25%, not dead",
+                                        'corejs':3
+                                    }
+                                ]
+                            ],
+                            "plugins":[
+                                [
+                                    "module-resolver",
+                                    {
+                                        "root":["./"],
+                                        "alias":{
+                                            "@client":"./client"
+                                        }
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
     }
 }
