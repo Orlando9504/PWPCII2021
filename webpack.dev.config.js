@@ -1,4 +1,9 @@
 const path=require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+//importando el eslint
+
+const EslintWebpackPlugin = require('eslint-webpack-plugin');
+
 module.exports={
     // 1.-Establecer el modo
     mode:'development',
@@ -15,7 +20,7 @@ module.exports={
     },
     devServer:{
         static:path.join(__dirname,'public'),
-        port:8080,
+        port:process.env.PORT || '3000',
         host:'localhost'
     },
     module:{
@@ -33,8 +38,8 @@ module.exports={
                                     {
                                         'modules': false,
                                         'useBuiltIns':'usage',
-                                        //'targets':{"chrome":"80"},
-                                        'targets':"> 0.25%, not dead",
+                                        'targets':{"chrome":"80"},
+                                        //'targets':"> 0.25%, not dead",
                                         'corejs':3
                                     }
                                 ]
@@ -53,7 +58,17 @@ module.exports={
                         }
                     }
                 ]
+            },
+            {
+                test:/\.css$/,
+                use:[MiniCssExtractPlugin.loader,'css-loader']
             }
         ]
-    }
+    },
+    plugins:[
+        new MiniCssExtractPlugin({
+            filename:'styles/app.css'
+        }),
+        new EslintWebpackPlugin()
+    ]
 }

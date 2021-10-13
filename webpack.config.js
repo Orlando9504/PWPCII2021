@@ -1,4 +1,5 @@
 const path=require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports={
     // 1.-Establecer el modo
     mode:'development',
@@ -28,8 +29,8 @@ module.exports={
                                     {
                                         'modules': false,
                                         'useBuiltIns':'usage',
-                                        //'targets':{"chrome":"80"},
-                                        'targets':"> 0.25%, not dead",
+                                        'targets':{"chrome":"80"},
+                                        //'targets':"> 0.25%, not dead",
                                         'corejs':3
                                     }
                                 ]
@@ -48,7 +49,16 @@ module.exports={
                         }
                     }
                 ]
+            },
+            {
+                test:/\.css$/,
+                use:[MiniCssExtractPlugin.loader,'css-loader']
             }
         ]
-    }
+    },
+    plugins:[
+        new MiniCssExtractPlugin({
+            filename:'styles/app.css'
+        })
+    ]
 }
