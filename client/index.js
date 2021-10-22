@@ -4,6 +4,7 @@ import './stylesheets/style.css';
 import './stylesheets/mystyles.css';
 
 console.log('Webpack esta trabajando!!');
+/*
 // Default parameters ES6/2015
 const show = (m = 'hola') => {
   alert(m);
@@ -25,4 +26,4 @@ async function asyncCall() {
   console.log(result);
 }
 
-asyncCall();
+asyncCall(); */
