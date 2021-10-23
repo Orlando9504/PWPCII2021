@@ -1,15 +1,16 @@
-var express = require('express');
-var router = express.Router();
+// Importando el router de home
+import homeRouter from './home';
+import userRouter from './users';
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-                        /*View Model */
-  res.render('index', { title: 'Express', author:'Steve Jobs', AppName:'WebApp', company:'Awsome Software'});
-});
+// router.use('/', homeRouter);
+// router.use('/users', userRouter);
+const addRoutes = (app) => {
+  app.use('/', homeRouter);
+  app.use('/users', userRouter);
+  return app;
+};
 
-/* Agregando nueva ruta */
-router.get('/greeting',function(req,res,next){
-  res.send('Hola campeón de la fullstack web');
-});
-
-module.exports = router;
+export default {
+  addRoutes,
+};
