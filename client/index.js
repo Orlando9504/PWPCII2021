@@ -4,6 +4,12 @@ import './stylesheets/style.css';
 import './stylesheets/mystyles.css';
 
 console.log('Webpack esta trabajando!!');
+// Inicializando Scripts de materialize
+document.addEventListener('DOMContentLoaded', () => {
+  const sideNav = document.querySelectorAll('.sidenav');
+  // eslint-disable-next-line no-undef
+  M.Sidenav.init(sideNav);
+});
 /*
 // Default parameters ES6/2015
 const show = (m = 'hola') => {
