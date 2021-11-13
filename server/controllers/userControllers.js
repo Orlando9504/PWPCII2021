@@ -1,5 +1,5 @@
 const index = (req, res) => {
-  res.send('Indexado de usuarios');
+  res.send('indexado de usuarios. under construccion');
 };
 
 export default {

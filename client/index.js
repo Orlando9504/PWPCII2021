@@ -1,35 +1,19 @@
-/* eslint-disable no-console */
 /* eslint-disable no-alert */
+/* eslint-disable no-console */
 import './stylesheets/style.css';
 import './stylesheets/mystyles.css';
 
-console.log('Webpack esta trabajando!!');
-// Inicializando Scripts de materialize
+// Inicializando Script de materialize
 document.addEventListener('DOMContentLoaded', () => {
-  const sideNav = document.querySelectorAll('.sidenav');
-  // eslint-disable-next-line no-undef
-  M.Sidenav.init(sideNav);
-});
-/*
-// Default parameters ES6/2015
-const show = (m = 'hola') => {
-  alert(m);
-};
-
-show();
-
-function resolveafter25seconds() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve('resolved');
-    }, 2000);
+  // inicia todos los sidenavs
+  document.querySelectorAll('.sidenav').forEach((sideNav) => {
+    // eslint-disable-next-line no-undef
+    M.Sidenav.init(sideNav);
   });
-}
 
-async function asyncCall() {
-  console.log('Calling an async function');
-  const result = await resolveafter25seconds();
-  console.log(result);
-}
-
-asyncCall(); */
+  // iniciar dropdown
+  document
+    .querySelectorAll('.dropdown-trigger')
+    // eslint-disable-next-line no-undef
+    .forEach((dropdown) => M.Dropdown.init(dropdown));
+});

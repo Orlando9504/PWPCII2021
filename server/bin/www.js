@@ -1,33 +1,18 @@
 #!/usr/bin/env node
 import winston from '@server/config/winston';
-// Importando configuraciones de aplicación
-import configKeys from '@server/config/configKeys';
+// Importando config de aplicacion
+import configkeys from '@server/config/configkeys';
+// Importar clase de conexion
+import MongooseODM from '@server/config/odm';
+
 /**
  * Module dependencies.
  */
-
-import http from 'http';
 import Debug from 'debug';
+import http from 'http';
 import app from '../app';
-// const app = require('../app');
-const debug = Debug('pilacompleta2:server');
-// const http = require('http');
 
-/**
- * Create HTTP server.
- */
-
-const server = http.createServer(app);
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-  debug(`Listening on ${bind}`);
-}
+const debug = Debug('debug')('projnotes:server');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -53,8 +38,11 @@ function normalizePort(val) {
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(configKeys.port || '3000');
+const port = normalizePort(configkeys.port || '3000');
 app.set('port', port);
+
+const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
+
 /**
  * Event listener for HTTP server "error" event.
  */
@@ -64,12 +52,10 @@ function onError(error) {
     throw error;
   }
 
-  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
-
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      winston.error(`${bind} requires elevated privileges `);
+      winston.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
@@ -82,9 +68,44 @@ function onError(error) {
 }
 
 /**
- * Listen on provided port, on all network interfaces.
+ * Create HTTP server.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+const server = http.createServer(app);
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  const addr = server.address();
+  const bindAdr =
+    typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  debug(`Listening on ${bindAdr}`);
+}
+
+/**
+ * Creando objeto conexion
+ */
+const mongooseOdm = new MongooseODM(configkeys.databaseUrl);
+
+/**
+ * IIFE
+ */
+(async () => {
+  try {
+    const connectionResult = await mongooseOdm.connect();
+    if (connectionResult) {
+      winston.info('Conection to BD has successfuly established');
+      /**
+       * Listen on provided port, on all network interfaces.
+       */
+
+      server.listen(port);
+      server.on('error', onError);
+      server.on('listening', onListening);
+    }
+  } catch (error) {
+    winston.error(`Error connecting BD: ${error.message}`);
+  }
+})();
