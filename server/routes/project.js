@@ -14,4 +14,15 @@ router.get(['/', '/index'], projectController.index);
 // sirve el formulario para agregar proyectos
 router.get('/add', projectController.add);
 
+// POST "/projects/add"
+// Procesa el formulario
+router.post(
+    '/add',
+    Validate({
+      shape: projectValidator.projectSchema,
+      getObject: projectValidator.getProject,
+    }),
+    projectController.addPost,
+  );
+
 export default router;
