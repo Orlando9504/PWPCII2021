@@ -1,4 +1,3 @@
-
 /* eslint-disable prettier/prettier */
 import ExpHbs from 'express-handlebars';
 import path from 'path';
